@@ -9,29 +9,10 @@ public class Bullet : MonoBehaviour
     [Header("バレットの速度")]
     public float bulletSpeed;
 
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-        // マウスの左ボタンをクリックしたら
-        if (Input.GetMouseButtonDown(0))
-        {
-            // バレットを発射する
-            ShotBullet();
-
-            // Debug.Log で動作を確認
-            Debug.Log("左クリック確認");
-        }
-    }
-
     /// <summary>
     /// バレットの制御
     /// </summary>
-    private void ShotBullet()
+    public void ShotBullet()
     {
         // バレットの移動処理
         // バレットのゲームオブジェクトにアタッチされている Rigidbody2D コンポーネントを取得して、Rigidbody2D クラスの持つ AddForce メソッドを実行する
