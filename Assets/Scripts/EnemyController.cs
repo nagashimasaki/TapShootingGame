@@ -9,6 +9,9 @@ public class EnemyController : MonoBehaviour
     [Header("エネミーのHP")]
     public int hp;
 
+    [Header("エネミーの攻撃力")]
+    public int attackPower;
+
     void Update()
     {
 
