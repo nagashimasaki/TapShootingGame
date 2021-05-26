@@ -7,6 +7,7 @@ TagManager:
   - FxTemporaire
   - Buulet
   - Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
