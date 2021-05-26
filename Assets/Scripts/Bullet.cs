@@ -9,6 +9,9 @@ public class Bullet : MonoBehaviour
     [Header("バレットの速度")]
     public float bulletSpeed;
 
+    [Header("バレットの攻撃力")]
+    public int bulletPower;
+
     /// <summary>
     /// バレットの制御
     /// </summary>

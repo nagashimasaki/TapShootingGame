@@ -6,6 +6,9 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
 
+    [Header("エネミーのHP")]
+    public int hp;
+
     void Update()
     {
 
@@ -28,7 +31,7 @@ public class EnemyController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
 
-        // 侵入したコライダーのゲームオブジェクトの Tag が Bullet なら　=>　Enemy ゲームオブジェクトのコライダーに、Bullet ゲームオブジェクトのコライダーが侵入していたら
+        // 侵入したコライダーのゲームオブジェクトの Tag が Bullet なら
         if (col.gameObject.tag == "Bullet")
         {
 
@@ -36,22 +39,51 @@ public class EnemyController : MonoBehaviour
             Debug.Log("侵入したオブジェクト名 : " + col.gameObject.name);
 
             // バレットのゲームオブジェクトを破壊する
-            DestroyObjects(col);
+            DestroyBullet(col);
+
+            // 侵入してきたコライダーのゲームオブジェクトに Bullet スクリプトがアタッチされていたら取得して bullet 変数に代入して、if 文の中の処理を行う
+            if (col.gameObject.TryGetComponent(out Bullet bullet))
+            {
+                // HPの更新処理とエネミーの破壊確認の処理を呼び出す
+                UpdateHp(bullet);
+            }
         }
     }
 
     /// <summary>
     /// バレットとエネミーの破壊処理
     /// </summary>
-    private void DestroyObjects(Collider2D col)
+    private void DestroyBullet(Collider2D col)
     {
+
         // 侵入判定の確認
         Debug.Log("侵入したオブジェクト名 : " + col.gameObject.tag);
 
         // バレットを破壊する
         Destroy(col.gameObject);
+    }
 
-        // このゲームオブジェクトを破壊する
-        Destroy(gameObject);
+    /// <summary>
+    /// Hpの更新処理とエネミーの破壊確認処理
+    /// </summary>
+    private void UpdateHp(Bullet bullet)
+    {
+
+        // hp 変数から 15 減らす　(hpの減算処理)
+        hp -= bullet.bulletPower;
+
+        // hp が 0 以下になったら
+        if (hp <= 0)
+        {
+            hp = 0;
+
+            // エネミーの破壊処理を行う  
+            Destroy(gameObject);
+        }
+        else
+        {
+
+            Debug.Log("残り Hp : " + hp);
+        }
     }
 }
