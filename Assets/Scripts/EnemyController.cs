@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;      
+using DG.Tweening;
 
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class EnemyController : MonoBehaviour
@@ -11,6 +13,22 @@ public class EnemyController : MonoBehaviour
 
     [Header("エネミーの攻撃力")]
     public int attackPower;
+
+    [SerializeField]
+    private Slider slider;
+
+    // HPの最大値を代入する変数
+    private int maxHp;           
+
+    void Start()
+    {
+
+        // ゲーム開始時点のHpの値を最大値として代入
+        maxHp = hp;
+
+        // Hpゲージの表示更新
+        DisplayHpGauge();
+    }
 
     void Update()
     {
@@ -75,6 +93,12 @@ public class EnemyController : MonoBehaviour
         // hp 変数から 15 減らす　(hpの減算処理)
         hp -= bullet.bulletPower;
 
+        // Hp の値の上限・下限を確認して範囲内に制限
+        hp = Mathf.Clamp(hp, 0, maxHp);
+
+        // HPゲージの表示更新
+        DisplayHpGauge();
+
         // hp が 0 以下になったら
         if (hp <= 0)
         {
@@ -88,5 +112,15 @@ public class EnemyController : MonoBehaviour
 
             Debug.Log("残り Hp : " + hp);
         }
+    }
+
+    /// <summary>
+    /// HPゲージの表示更新
+    /// </summary>
+    private void DisplayHpGauge()
+    {
+
+        // HPゲージを現在値に合わせて制御
+        slider.DOValue((float)hp / maxHp, 0.25f);
     }
 }
