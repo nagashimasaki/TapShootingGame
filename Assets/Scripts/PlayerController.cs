@@ -43,10 +43,9 @@ public class PlayerController : MonoBehaviour
     {
 
         // bulletPrefab 変数の値(Bullet ゲームオブジェクト)のクローンを生成し、戻り値を bulletObj 変数に代入。生成位置は PlayerSet ゲームオブジェクトの子オブジェクトを指定
-        GameObject bulletObj = Instantiate(bulletPrefab, transform);  //　<=　☆　代入処理に修正
+        GameObject bulletObj = Instantiate(bulletPrefab, transform);  
 
         // bulletObj 変数(Bullet ゲームオブジェクトが代入されている)にアタッチされている Bullet スクリプトの情報を取得し、ShotBullet メソッドに処理を行うように命令を出す
         bulletObj.GetComponent<Bullet>().ShotBullet(direction);
-
     }
 }
