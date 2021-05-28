@@ -16,10 +16,20 @@ public class DefenseBase : MonoBehaviour
     [SerializeField]
     private Slider slider;
 
-    private int maxDurability;     // 耐久力の最大値を代入しておく
+    // 耐久力の最大値を代入しておく
+    private int maxDurability;
 
-    void Start()
+    // GameManager スクリプトの情報を代入するための変数
+    private GameManager gameManager;
+
+    /// <summary>
+    /// DefenseBaseの設定
+    /// </summary>
+    public void SetUpDefenceBase(GameManager gameManager)
     {
+
+        // 引数を利用して、GameManager スクリプトの情報を受け取って、用意しておいた変数に代入
+        this.gameManager = gameManager;
 
         // ゲーム開始時点の耐久力の値を最大値として代入
         maxDurability = durability;
@@ -66,9 +76,15 @@ public class DefenseBase : MonoBehaviour
         // 耐久力の表示更新
         DisplayDurability();
 
-        // TODO ゲージの表示を耐久力の値に合わせて更新
-        // TODO 耐久力が 0 以下になっていないか確認
-        // TODO 耐久力が 0 以下なら、ゲームオーバーの判定を行う
+        // 耐久力が 0 以下になっていないか確認し、かつ、すでに isGameUp 変数が true になっていないかも確認
+        if (durability <= 0 && gameManager.isGameUp == false)
+        {
+
+            Debug.Log("Game Over");
+
+            // 耐久力が 0 以下なら、ゲーム終了とする判定を行う。ここで isGameUp 変数が true に切り替わるので、上の if 文の条件を満たさなくなり、この分岐内は１回しか処理されなくなる
+            gameManager.SwitchGameUp(true);
+        }
     }
 
     /// <summary>
