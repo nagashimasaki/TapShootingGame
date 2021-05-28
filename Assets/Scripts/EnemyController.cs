@@ -18,10 +18,16 @@ public class EnemyController : MonoBehaviour
     private Slider slider;
 
     // HPの最大値を代入する変数
-    private int maxHp;           
+    private int maxHp;
 
-    void Start()
-    {
+    /// <summary>
+    /// エネミーの設定
+    /// </summary>
+    public void SetUpEnemy()
+    {     
+
+        // エネミーの X 軸(左右)の位置を、ゲーム画面に収まる範囲でランダムな位置に変更
+        transform.localPosition = new Vector3(transform.localPosition.x + Random.Range(-650, 650), transform.localPosition.y, 0);
 
         // ゲーム開始時点のHpの値を最大値として代入
         maxHp = hp;
