@@ -14,8 +14,20 @@ public class EnemyGenerator : MonoBehaviour
     private int generateCount;
 
     // 準備時間の計測用の変数
-    private float timer;           
+    private float timer;
 
+    private GameManager gameManager;
+
+    /// <summary>
+    /// EnemyGenerator の設定
+    /// </summary>
+    /// <param name="gameManager"></param>
+    public void SetUpEnemyGenerator(GameManager gameManager)
+    {
+
+        // EnemyGenerator スクリプトの gameManager 変数に、引数で届いた GameManager スクリプトの情報を代入
+        this.gameManager = gameManager;
+    }
 
     /// <summary>
     /// エネミー生成の準備
@@ -57,7 +69,14 @@ public class EnemyGenerator : MonoBehaviour
 
     void Update()
     {
-        // エネミー生成の準備
-        PreparateGenerateEnemy();
+
+        // ゲーム終了の状態ではないなら
+        if (!gameManager.isGameUp)
+        {     // ! が先頭についているので、gameManager.isGameUp == false と同じ条件式
+
+
+            // エネミー生成の準備
+            PreparateGenerateEnemy();
+        }
     }
 }

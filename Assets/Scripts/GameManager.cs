@@ -11,13 +11,26 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private DefenseBase defenseBase;
 
+    [SerializeField]
+    private PlayerController playerController;
+
+    [SerializeField]
+    private EnemyGenerator enemyGenerator;
+
+
     void Start()
     {
         // ゲームが終了していない(未終了)状態 = false に切り替える
         SwitchGameUp(false);
 
         // DefenseBase スクリプトに用意した、DefenseBase の設定を行うための SetUpDefenseBase メソッドを呼び出す。引数として GameManager の情報を渡す
-        defenseBase.SetUpDefenceBase(this);　　//← SetUpDefenceBase の fence の c が s になっていた
+        defenseBase.SetUpDefenceBase(this);
+
+        // PlayerController スクリプトに用意した、PlayerController の設定を行うための SetUpPlayer メソッドを呼び出す。引数として GameManager の情報を渡す
+        playerController.SetUpPlayer(this);
+
+        // EnemyGeneratorの初期設定
+        enemyGenerator.SetUpEnemyGenerator(this);
     }
 
     /// <summary>
