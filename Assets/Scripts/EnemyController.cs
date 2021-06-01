@@ -17,6 +17,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private Slider slider;
 
+    // ヒット演出用のエフェクトのプレファブをインスペクターよりアサインして登録する
+    [SerializeField]
+    private GameObject bulletEffectPrefab;     
+
     // HPの最大値を代入する変数
     private int maxHp;
 
@@ -40,7 +44,7 @@ public class EnemyController : MonoBehaviour
     {
 
         // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
-        transform.Translate(0, -0.01f, 0);
+        transform.Translate(0, -0.05f, 0);
 
         // 一定地点までエネミーが移動したら = このゲームオブジェクトの位置が一定値(-1500)を超えたら
         if (transform.localPosition.y < -3000)
@@ -73,6 +77,9 @@ public class EnemyController : MonoBehaviour
             {
                 // HPの更新処理とエネミーの破壊確認の処理を呼び出す
                 UpdateHp(bullet);
+
+                // バレットのヒット演出用エフェクトの生成
+                GenerateBulletEffect(col.gameObject.transform);
             }
         }
     }
@@ -128,5 +135,21 @@ public class EnemyController : MonoBehaviour
 
         // HPゲージを現在値に合わせて制御
         slider.DOValue((float)hp / maxHp, 0.25f);
+    }
+
+    /// <summary>
+    /// 被バレット時のヒット演出用のエフェクト生成
+    /// </summary>
+    　　/// <param name="bulletTran"></param>
+    private void GenerateBulletEffect(Transform bulletTran)
+    {
+
+        // ヒット演出用のエフェクトを、バレットのぶつかった位置で生成
+        GameObject effect = Instantiate(bulletEffectPrefab, bulletTran, false);
+
+        // エフェクトをエネミーの子オブジェクトにする
+        effect.transform.SetParent(transform);
+
+        Destroy(effect, 3.0f);
     }
 }
