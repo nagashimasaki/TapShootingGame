@@ -16,6 +16,9 @@ public class DefenseBase : MonoBehaviour
     [SerializeField]
     private Slider slider;
 
+    [SerializeField]
+    private GameObject enemyAttackEffectPrefab;
+
     // 耐久力の最大値を代入しておく
     private int maxDurability;
 
@@ -52,6 +55,9 @@ public class DefenseBase : MonoBehaviour
                 //耐久力の更新処理を呼び出す
                 UpdateDurability(enemy);
             }
+
+            // エネミーの攻撃演出用のエフェクト生成
+            GenerateEnemyAttackEffect();
 
             // エネミーのゲームオブジェクトを破壊する
             Destroy(col.gameObject);
@@ -98,5 +104,18 @@ public class DefenseBase : MonoBehaviour
 
         // ゲージの表示を耐久力の値に合わせて更新(最初は durability / maxDurability の結果が 1.0f になるので、ゲージは最大値になる)
         slider.DOValue((float)durability / maxDurability, 0.25f);
+    }
+
+    /// <summary>
+    /// エネミーが拠点に侵入した際の攻撃演出用のエフェクト生成
+    /// </summary>
+    private void GenerateEnemyAttackEffect()
+    {
+
+        // 拠点の位置(画面の中央)にエフェクトを生成
+        GameObject enemyAttackEffect = Instantiate(enemyAttackEffectPrefab, transform, false);  //　　<=　☆　第2引数はどんな情報になっていますか？
+
+        // 3秒後にエフェクトを破壊する
+        Destroy(enemyAttackEffect, 3.0f);
     }
 }

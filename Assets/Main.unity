@@ -409,7 +409,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 897679888}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -760,9 +760,9 @@ RectTransform:
   - {fileID: 850579116}
   - {fileID: 620977464}
   - {fileID: 1353673721}
-  - {fileID: 1952171907}
   - {fileID: 1625951376}
   - {fileID: 503371434}
+  - {fileID: 1952171907}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1248,6 +1248,8 @@ MonoBehaviour:
   durability: 100
   txtDurability: {fileID: 1290829808}
   slider: {fileID: 2037697670}
+  enemyAttackEffectPrefab: {fileID: 5414901651859848085, guid: 2e80c5bca6a60bb4b978e9088cc80b3e,
+    type: 3}
 --- !u!50 &1353673723
 Rigidbody2D:
   serializedVersion: 4
@@ -1373,7 +1375,7 @@ RectTransform:
   - {fileID: 1104806637}
   - {fileID: 87574887}
   m_Father: {fileID: 897679888}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -1520,7 +1522,7 @@ RectTransform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 897679888}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
