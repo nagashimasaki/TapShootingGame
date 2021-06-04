@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private EnemyGenerator enemyGenerator;
 
+    [SerializeField]
+    private Transform temporaryObjectContainerTran;
 
     void Start()
     {
@@ -31,6 +33,9 @@ public class GameManager : MonoBehaviour
 
         // EnemyGeneratorの初期設定
         enemyGenerator.SetUpEnemyGenerator(this);
+        
+        // TransformHelper スクリプトの temporaryObjectContainerTran 変数に情報を渡す
+        TransformHelper.SetTemporaryObjectContainerTran(temporaryObjectContainerTran);
     }
 
     /// <summary>

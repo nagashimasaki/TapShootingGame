@@ -44,7 +44,7 @@ public class EnemyController : MonoBehaviour
     {
 
         // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
-        transform.Translate(0, -0.05f, 0);
+        transform.Translate(0, -0.04f, 0);
 
         // 一定地点までエネミーが移動したら = このゲームオブジェクトの位置が一定値(-1500)を超えたら
         if (transform.localPosition.y < -3000)

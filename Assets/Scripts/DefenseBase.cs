@@ -57,7 +57,8 @@ public class DefenseBase : MonoBehaviour
             }
 
             // エネミーの攻撃演出用のエフェクト生成
-            GenerateEnemyAttackEffect();
+            GenerateEnemyAttackEffect(col.gameObject.transform);
+
 
             // エネミーのゲームオブジェクトを破壊する
             Destroy(col.gameObject);
@@ -109,11 +110,14 @@ public class DefenseBase : MonoBehaviour
     /// <summary>
     /// エネミーが拠点に侵入した際の攻撃演出用のエフェクト生成
     /// </summary>
-    private void GenerateEnemyAttackEffect()
+    private void GenerateEnemyAttackEffect(Transform enemyTran)
     {
 
         // 拠点の位置(画面の中央)にエフェクトを生成
-        GameObject enemyAttackEffect = Instantiate(enemyAttackEffectPrefab, transform, false);  //　　<=　☆　第2引数はどんな情報になっていますか？
+        GameObject enemyAttackEffect = Instantiate(enemyAttackEffectPrefab, enemyTran, false);
+
+        // 生成されたエフェクトを TemporaryObjectContainerTran の子オブジェクトにする(引数に GetTemporaryObjectContainerTran メソッドの戻り値を利用)
+        enemyAttackEffect.transform.SetParent(TransformHelper.GetTemporaryObjectContainerTran());
 
         // 3秒後にエフェクトを破壊する
         Destroy(enemyAttackEffect, 3.0f);
