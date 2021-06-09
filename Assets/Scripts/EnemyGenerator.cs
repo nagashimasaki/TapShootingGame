@@ -91,13 +91,24 @@ public class EnemyGenerator : MonoBehaviour
     /// <summary>
     /// エネミーの生成
     /// </summary>
-    private void GenerateEnemy()
-    {
+    private void GenerateEnemy(bool isBoss = false)
+    {    
 
         // プレファブからエネミーのクローンを生成する。生成位置は EnemyGenerator の位置
-        // エネミーのゲームオブジェクトにアタッチされている EnemyController スクリプトの情報を取得して変数に代入
+        GameObject enemySetObj = Instantiate(enemySetPrefab, transform, false);    //  <=  左辺に GameObject 型の変数を用意して、インスタンスされたエネミーの情報を戻り値で受け取る
+
+        // エネミーのゲームオブジェクト(enemySetObj 変数の値)にアタッチされている EnemyController スクリプトの情報を取得して変数に代入
+        EnemyController enemyController = enemySetObj.GetComponent<EnemyController>();
+
         // EnemyController スクリプトの SetUpEnemy メソッドを実行する　=>　Start メソッドの代わりになる処理
-        Instantiate(enemySetPrefab, transform, false).GetComponent<EnemyController>().SetUpEnemy();
+        enemyController.SetUpEnemy(isBoss);　　　　　　　
+
+        // ボスの場合には
+        if (isBoss)
+        {
+            // 追加設定を行う
+            enemyController.AdditionalSetUpEnemy(this);
+        }
     }
 
     void Update()
@@ -131,10 +142,10 @@ public class EnemyGenerator : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        // TODO ボス生成
+        // ボス生成
+        GenerateEnemy(true);
 
         // TODO ボス討伐(仮)
-        SwitchBossDestroyed(true);
     }
 
     /// <summary>

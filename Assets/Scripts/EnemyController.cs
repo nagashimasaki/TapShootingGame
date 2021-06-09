@@ -24,14 +24,43 @@ public class EnemyController : MonoBehaviour
     // HPの最大値を代入する変数
     private int maxHp;
 
+    // ボスの判別用。true ならボス、false ならボス以外
+    private bool isBoss;
+
+    // EnemyGenerator を利用するための変数
+    private EnemyGenerator enemyGenerator;      
+
+
     /// <summary>
     /// エネミーの設定
     /// </summary>
-    public void SetUpEnemy()
-    {     
+    public void SetUpEnemy(bool isBoss = false)
+    {
 
-        // エネミーの X 軸(左右)の位置を、ゲーム画面に収まる範囲でランダムな位置に変更
-        transform.localPosition = new Vector3(transform.localPosition.x + Random.Range(-650, 650), transform.localPosition.y, 0);
+        // 引数で届いた情報を変数に代入してスクリプト内で利用できる状態にする
+        this.isBoss = isBoss;
+
+        // ボスではない場合
+        if (!this.isBoss)
+        {
+            // エネミーの X 軸(左右)の位置を、ゲーム画面に収まる範囲でランダムな位置に変更
+            transform.localPosition = new Vector3(transform.localPosition.x + Random.Range(-650, 650), transform.localPosition.y, 0);
+        }
+        else
+        {
+
+            // ボスの位置を徐々に下方向に変更
+            transform.DOLocalMoveY(transform.localPosition.y - 500, 3.0f);
+
+            // ボスの場合、サイズを大きくする
+            transform.localScale = Vector3.one * 2.0f;
+
+            // Hpゲージの位置を高い位置にする
+            slider.transform.localPosition = new Vector3(0, 150, 0);
+
+            // hp を 3 倍にする
+            hp *= 3;
+        }
 
         // ゲーム開始時点のHpの値を最大値として代入
         maxHp = hp;
@@ -43,15 +72,11 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
 
-        // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
-        transform.Translate(0, -0.04f, 0);
-
-        // 一定地点までエネミーが移動したら = このゲームオブジェクトの位置が一定値(-1500)を超えたら
-        if (transform.localPosition.y < -3000)
+        // ボス以外なら
+        if (!isBoss)
         {
-
-            //  このスクリプトがアタッチしているゲームオブジェクトを破壊する
-            Destroy(gameObject);
+            // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
+            transform.Translate(0, -0.01f, 0);
         }
     }
 
@@ -117,6 +142,13 @@ public class EnemyController : MonoBehaviour
         {
             hp = 0;
 
+            // ボスの場合
+            if (isBoss)
+            {
+                // ボス討伐済みの状態にする
+                enemyGenerator.SwitchBossDestroyed(true);
+            }
+
             // エネミーの破壊処理を行う  
             Destroy(gameObject);
         }
@@ -151,5 +183,18 @@ public class EnemyController : MonoBehaviour
         effect.transform.SetParent(transform);
 
         Destroy(effect, 3.0f);
+    }
+
+    /// <summary>
+    /// エネミーの追加設定
+    /// </summary>
+    /// <param name="enemyGenerator"></param>
+    public void AdditionalSetUpEnemy(EnemyGenerator enemyGenerator)
+    {
+
+        // 引数で届いた情報を変数に代入してスクリプト内で利用できる状態にする
+        this.enemyGenerator = enemyGenerator;
+
+        Debug.Log("追加設定完了");
     }
 }
