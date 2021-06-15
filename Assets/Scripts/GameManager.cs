@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Transform temporaryObjectContainerTran;
 
+    public UIManager uiManager;
+
     void Start()
     {
         // ゲームが終了していない(未終了)状態 = false に切り替える
@@ -36,6 +38,9 @@ public class GameManager : MonoBehaviour
         
         // TransformHelper スクリプトの temporaryObjectContainerTran 変数に情報を渡す
         TransformHelper.SetTemporaryObjectContainerTran(temporaryObjectContainerTran);
+
+        // GameClearSet ゲームオブジェクトを見えない状態にする
+        uiManager.HideGameClearSet();
     }
 
     /// <summary>
@@ -47,5 +52,15 @@ public class GameManager : MonoBehaviour
 
         // isGameUp の値を引数の値に切り替える
         isGameUp = isSwitch;
+    }
+
+    /// <summary>
+    /// ゲームクリアの準備
+    /// </summary>
+    public void PreparateGameClear()
+    {
+
+        // ゲームクリアの表示を行う
+        uiManager.DisplayGameClearSet();
     }
 }

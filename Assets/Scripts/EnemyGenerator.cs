@@ -162,8 +162,7 @@ public class EnemyGenerator : MonoBehaviour
         // ボス討伐に合わせて、ゲーム終了の状態に切り替える
         gameManager.SwitchGameUp(isBossDestroyed);
 
-
-        // TODO ゲームクリアの準備
-
+        // ゲームクリアの準備
+        gameManager.PreparateGameClear();
     }
 }
