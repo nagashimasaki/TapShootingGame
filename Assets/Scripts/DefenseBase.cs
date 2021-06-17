@@ -91,6 +91,9 @@ public class DefenseBase : MonoBehaviour
 
             // 耐久力が 0 以下なら、ゲーム終了とする判定を行う。ここで isGameUp 変数が true に切り替わるので、上の if 文の条件を満たさなくなり、この分岐内は１回しか処理されなくなる
             gameManager.SwitchGameUp(true);
+
+            // ゲームオーバーの準備
+            gameManager.PreparateGameOver();
         }
     }
 

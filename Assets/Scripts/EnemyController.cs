@@ -46,8 +46,7 @@ public class EnemyController : MonoBehaviour
             // エネミーの X 軸(左右)の位置を、ゲーム画面に収まる範囲でランダムな位置に変更
             transform.localPosition = new Vector3(transform.localPosition.x + Random.Range(-650, 650), transform.localPosition.y, 0);
         }
-        else
-        {
+        else        {
 
             // ボスの位置を徐々に下方向に変更
             transform.DOLocalMoveY(transform.localPosition.y - 500, 3.0f);
@@ -76,7 +75,7 @@ public class EnemyController : MonoBehaviour
         if (!isBoss)
         {
             // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
-            transform.Translate(0, -0.01f, 0);
+            transform.Translate(0, -0.05f, 0);
         }
     }
 

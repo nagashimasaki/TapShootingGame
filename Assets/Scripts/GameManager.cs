@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
 
         // GameClearSet ゲームオブジェクトを見えない状態にする
         uiManager.HideGameClearSet();
+
+        // GameOverSet ゲームオブジェクトを見えない状態にする
+        uiManager.HideGameOverSet();
     }
 
     /// <summary>
@@ -62,5 +65,15 @@ public class GameManager : MonoBehaviour
 
         // ゲームクリアの表示を行う
         uiManager.DisplayGameClearSet();
+    }
+
+    /// <summary>
+    /// ゲームオーバーの準備
+    /// </summary>
+    public void PreparateGameOver()
+    {
+
+        // ゲームオーバーの表示を行う
+        uiManager.DisplayGameOverSet();
     }
 }
