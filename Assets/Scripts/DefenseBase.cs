@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -9,12 +8,6 @@ public class DefenseBase : MonoBehaviour
 {
     [Header("拠点の耐久力")]
     public int durability;
-
-    [SerializeField]
-    private Text txtDurability;
-
-    [SerializeField]
-    private Slider slider;
 
     [SerializeField]
     private GameObject enemyAttackEffectPrefab;
@@ -38,7 +31,7 @@ public class DefenseBase : MonoBehaviour
         maxDurability = durability;
 
         // 耐久力の表示更新
-        DisplayDurability();
+        gameManager.uiManager.DisplayDurability(durability, maxDurability);
     }
 
 
@@ -81,7 +74,7 @@ public class DefenseBase : MonoBehaviour
         Debug.Log("残りの耐久力 ; " + durability);
 
         // 耐久力の表示更新
-        DisplayDurability();
+        gameManager.uiManager.DisplayDurability(durability, maxDurability);
 
         // 耐久力が 0 以下になっていないか確認し、かつ、すでに isGameUp 変数が true になっていないかも確認
         if (durability <= 0 && gameManager.isGameUp == false)
@@ -95,19 +88,6 @@ public class DefenseBase : MonoBehaviour
             // ゲームオーバーの準備
             gameManager.PreparateGameOver();
         }
-    }
-
-    /// <summary>
-    /// 耐久力の表示更新
-    /// </summary>
-    private void DisplayDurability()
-    {
-
-        // 画面に耐久力の値を　現在値 / 最大値　の形式で表示する
-        txtDurability.text = durability + "  / " + maxDurability;
-
-        // ゲージの表示を耐久力の値に合わせて更新(最初は durability / maxDurability の結果が 1.0f になるので、ゲージは最大値になる)
-        slider.DOValue((float)durability / maxDurability, 0.25f);
     }
 
     /// <summary>

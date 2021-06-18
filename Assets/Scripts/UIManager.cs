@@ -15,6 +15,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text txtGameOver;
 
+    [SerializeField]
+    private Text txtDurability;
+
+    [SerializeField]
+    private Slider slider;
+
     /// <summary>
     /// ゲームクリア表示を隠す
     /// </summary>
@@ -57,5 +63,18 @@ public class UIManager : MonoBehaviour
 
         // DOTween の DOText メソッドを利用して文字列を１文字ずつ順番に同じ表示時間で表示
         txtGameOver.DOText(txt, 3.5f).SetEase(Ease.Linear);
+    }
+
+    /// <summary>
+    /// 耐久度の表示更新
+    /// </summary>
+    public void DisplayDurability(int durability, int maxDurability)
+    {
+
+        // 画面に耐久力の値を　現在値 / 最大値　の形式で表示する
+        txtDurability.text = durability + "  / " + maxDurability;
+
+        // ゲージの表示を耐久力の値に合わせて更新(最初は durability / maxDurability の結果が 1.0f になるので、ゲージは最大値になる)
+        slider.DOValue((float)durability / maxDurability, 0.25f);
     }
 }
