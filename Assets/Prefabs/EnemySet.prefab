@@ -177,8 +177,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3eab64d387d6a42960c376b3eecf49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
+  enemyData:
+    no: 0
+    hp: 0
+    power: 0
+    enemySprite: {fileID: 0}
+    enemyType: 0
   attackPower: 100
+  imgEnemy: {fileID: 568749642554984308}
   slider: {fileID: 568749642612105663}
   bulletEffectPrefab: {fileID: 2987083160230846503, guid: c894abe709e344f4c98e8eb160f78d21,
     type: 3}

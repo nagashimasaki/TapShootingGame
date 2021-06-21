@@ -628,9 +628,12 @@ MonoBehaviour:
   enemySetPrefab: {fileID: 568749642500503991, guid: 181d78abe8fb7554191bca66df73a417,
     type: 3}
   preparateTime: 1.5
-  maxGenerateCount: 5
-  isGenerateEnd: 1
-  isBossDestroyed: 1
+  maxGenerateCount: 3
+  isGenerateEnd: 0
+  isBossDestroyed: 0
+  enemyDataSO: {fileID: 11400000, guid: e8ddcb01fd4b3f546a4191efca503be5, type: 2}
+  normalEnemyDatas: []
+  bossEnemyDatas: []
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

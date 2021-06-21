@@ -8,11 +8,14 @@ using DG.Tweening;
 public class EnemyController : MonoBehaviour
 {
 
-    [Header("エネミーのHP")]
-    public int hp;
+    [Header("エネミーのデータ情報")]
+    public EnemyDataSO.EnemyData enemyData;           
 
     [Header("エネミーの攻撃力")]
     public int attackPower;
+
+    [SerializeField]
+    private Image imgEnemy;
 
     [SerializeField]
     private Slider slider;
@@ -24,29 +27,28 @@ public class EnemyController : MonoBehaviour
     // HPの最大値を代入する変数
     private int maxHp;
 
-    // ボスの判別用。true ならボス、false ならボス以外
-    private bool isBoss;
-
     // EnemyGenerator を利用するための変数
-    private EnemyGenerator enemyGenerator;      
+    private EnemyGenerator enemyGenerator;
 
+    private int hp;
 
     /// <summary>
     /// エネミーの設定
     /// </summary>
-    public void SetUpEnemy(bool isBoss = false)
+    public void SetUpEnemy(EnemyDataSO.EnemyData enemyData)
     {
 
-        // 引数で届いた情報を変数に代入してスクリプト内で利用できる状態にする
-        this.isBoss = isBoss;
+        // 引数で届いた EnemyData を代入する
+        this.enemyData = enemyData;
 
         // ボスではない場合
-        if (!this.isBoss)
+        if (this.enemyData.enemyType != EnemyType.Boss)
         {
             // エネミーの X 軸(左右)の位置を、ゲーム画面に収まる範囲でランダムな位置に変更
             transform.localPosition = new Vector3(transform.localPosition.x + Random.Range(-650, 650), transform.localPosition.y, 0);
         }
-        else        {
+        else        
+        {
 
             // ボスの位置を徐々に下方向に変更
             transform.DOLocalMoveY(transform.localPosition.y - 500, 3.0f);
@@ -56,13 +58,16 @@ public class EnemyController : MonoBehaviour
 
             // Hpゲージの位置を高い位置にする
             slider.transform.localPosition = new Vector3(0, 150, 0);
-
-            // hp を 3 倍にする
-            hp *= 3;
         }
 
-        // ゲーム開始時点のHpの値を最大値として代入
-        maxHp = hp;
+        // 画像を EnemyData の画像にする　=>　ここでエネミーごとの画像に変更する
+        imgEnemy.sprite = this.enemyData.enemySprite;
+
+        // EnemyData より Hp の値を最大値として代入
+        maxHp = this.enemyData.hp;
+
+        // hp を設定
+        hp = maxHp;
 
         // Hpゲージの表示更新
         DisplayHpGauge();
@@ -72,10 +77,10 @@ public class EnemyController : MonoBehaviour
     {
 
         // ボス以外なら
-        if (!isBoss)
+        if (enemyData.enemyType != EnemyType.Boss)
         {
-            // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
-            transform.Translate(0, -0.05f, 0);
+                // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
+                transform.Translate(0, -0.05f, 0);
         }
     }
 
@@ -142,7 +147,7 @@ public class EnemyController : MonoBehaviour
             hp = 0;
 
             // ボスの場合
-            if (isBoss)
+            if (enemyData.enemyType == EnemyType.Boss)
             {
                 // ボス討伐済みの状態にする
                 enemyGenerator.SwitchBossDestroyed(true);

@@ -27,15 +27,13 @@ public class EnemyGenerator : MonoBehaviour
     [Header("ボス討伐管理用")]
     public bool isBossDestroyed;
 
-    private void Start()
-    {
+    [Header("エネミーのスクリプタブル・オブジェクト")]
+    public EnemyDataSO enemyDataSO;
 
-        //ゲームスタート時には生成未完了の状態にする
-        isGenerateEnd = false;
+    // Normal タイプのエネミーのデータだけ代入されている List Debug　用に public
+    public List<EnemyDataSO.EnemyData> normalEnemyDatas = new List<EnemyDataSO.EnemyData>();
 
-        //ゲームスタート時にはボスを未討伐状態にする
-        isBossDestroyed = false;
-    }
+    public List<EnemyDataSO.EnemyData> bossEnemyDatas = new List<EnemyDataSO.EnemyData>();
 
     /// <summary>
     /// EnemyGenerator の設定
@@ -46,6 +44,11 @@ public class EnemyGenerator : MonoBehaviour
 
         // EnemyGenerator スクリプトの gameManager 変数に、引数で届いた GameManager スクリプトの情報を代入
         this.gameManager = gameManager;
+
+        // 引数で指定したエネミーのタイプのリストを作成
+        normalEnemyDatas = GetEnemyTypeList(EnemyType.Normal);
+
+        bossEnemyDatas = GetEnemyTypeList(EnemyType.Boss);
     }
 
     /// <summary>
@@ -91,8 +94,27 @@ public class EnemyGenerator : MonoBehaviour
     /// <summary>
     /// エネミーの生成
     /// </summary>
-    private void GenerateEnemy(bool isBoss = false)
-    {    
+    private void GenerateEnemy(EnemyType enemyType = EnemyType.Normal)
+    {
+
+        // ランダムな値を代入するための変数を宣言
+        int randomEnemyNo;
+
+        // EnemyData を代入するための変数を宣言
+        EnemyDataSO.EnemyData enemyData = null;
+
+        // EnemyType に合わせて生成するエネミーの種類を決定し、そのエネミーの種類ごとのリストからランダムな EnemyData を取得
+        switch (enemyType)
+        {
+            case EnemyType.Normal:
+                randomEnemyNo = Random.Range(0, normalEnemyDatas.Count);
+                enemyData = normalEnemyDatas[randomEnemyNo];
+                break;
+            case EnemyType.Boss:
+                randomEnemyNo = Random.Range(0, bossEnemyDatas.Count);
+                enemyData = bossEnemyDatas[randomEnemyNo];
+                break;
+        }
 
         // プレファブからエネミーのクローンを生成する。生成位置は EnemyGenerator の位置
         GameObject enemySetObj = Instantiate(enemySetPrefab, transform, false);    //  <=  左辺に GameObject 型の変数を用意して、インスタンスされたエネミーの情報を戻り値で受け取る
@@ -100,15 +122,11 @@ public class EnemyGenerator : MonoBehaviour
         // エネミーのゲームオブジェクト(enemySetObj 変数の値)にアタッチされている EnemyController スクリプトの情報を取得して変数に代入
         EnemyController enemyController = enemySetObj.GetComponent<EnemyController>();
 
-        // EnemyController スクリプトの SetUpEnemy メソッドを実行する　=>　Start メソッドの代わりになる処理
-        enemyController.SetUpEnemy(isBoss);　　　　　　　
+        // EnemyController スクリプトの SetUpEnemy メソッドを実行する
+        enemyController.SetUpEnemy(enemyData);　　　　　　　
 
-        // ボスの場合には
-        if (isBoss)
-        {
-            // 追加設定を行う
-            enemyController.AdditionalSetUpEnemy(this);
-        }
+        // 追加設定を行う
+        enemyController.AdditionalSetUpEnemy(this);
     }
 
     void Update()
@@ -136,16 +154,10 @@ public class EnemyGenerator : MonoBehaviour
     private IEnumerator GenerateBoss()
     {
 
-        // TODO ボス出現の警告演出
-        Debug.Log("ボス出現の警告演出");
-
-
         yield return new WaitForSeconds(1.0f);
 
         // ボス生成
-        GenerateEnemy(true);
-
-        // TODO ボス討伐(仮)
+        GenerateEnemy(EnemyType.Boss);
     }
 
     /// <summary>
@@ -165,4 +177,28 @@ public class EnemyGenerator : MonoBehaviour
         // ゲームクリアの準備
         gameManager.PreparateGameClear();
     }
+
+    /// <summary>
+    /// 引数で指定されたエネミーの種類のListを作成し、作成した値を戻す
+    /// </summary>
+    /// <param name="enemyType"></param>
+    /// <returns></returns>
+    private List<EnemyDataSO.EnemyData> GetEnemyTypeList(EnemyType enemyType)
+    {
+
+        List<EnemyDataSO.EnemyData> enemyDatas = new List<EnemyDataSO.EnemyData>();
+
+        // 引数のタイプのエネミーのデータだけを抽出して enemyDatas リストに EnemyData を追加して、List を作成していく
+        for (int i = 0; i < enemyDataSO.enemyDataList.Count; i++)
+        {
+            if (enemyDataSO.enemyDataList[i].enemyType == enemyType)
+            {
+                enemyDatas.Add(enemyDataSO.enemyDataList[i]);
+            }
+        }
+
+        // 抽出処理の結果を戻す
+        return enemyDatas;
+    }
+
 }
