@@ -11,9 +11,6 @@ public class EnemyController : MonoBehaviour
     [Header("エネミーのデータ情報")]
     public EnemyDataSO.EnemyData enemyData;           
 
-    [Header("エネミーの攻撃力")]
-    public int attackPower;
-
     [SerializeField]
     private Image imgEnemy;
 

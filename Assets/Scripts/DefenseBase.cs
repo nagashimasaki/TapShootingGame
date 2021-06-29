@@ -65,7 +65,10 @@ public class DefenseBase : MonoBehaviour
     {
 
         // 耐久力の値を減算する
-        durability -= enemy.attackPower;
+        durability -= enemy.enemyData.power;
+
+        // エネミーの攻撃力を反映しているか確認
+        Debug.Log("エネミーの攻撃力 : " + enemy.enemyData.power);
 
         // 耐久力の値を上限・下限値の範囲内に収まるか確認し、それを超えた場合には上限・下限値に置き換えて制限する
         durability = Mathf.Clamp(durability, 0, maxDurability);
