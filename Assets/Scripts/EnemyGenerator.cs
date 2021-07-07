@@ -201,4 +201,17 @@ public class EnemyGenerator : MonoBehaviour
         return enemyDatas;
     }
 
+    /// <summary>
+    /// TotalExp の表示更新準備
+    /// </summary>
+    /// <param name="exp"></param>
+    public void PreparateDisplayTotalExp(int exp)
+    {
+
+        // GameManager スクリプトから UIManager スクリプトの UpdateDisplayTotalExp メソッドを実行する
+        gameManager.uiManager.UpdateDisplayTotalExp(GameData.instance.GetTotalExp());
+
+        // TODO 引数の exp 変数は後々利用する
+
+    }
 }

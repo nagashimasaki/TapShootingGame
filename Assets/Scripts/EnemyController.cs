@@ -150,6 +150,12 @@ public class EnemyController : MonoBehaviour
                 enemyGenerator.SwitchBossDestroyed(true);
             }
 
+            // Exp を TotalExp に加算
+            GameData.instance.UpdateTotalExp(enemyData.exp);
+
+            // 最新の TotapExp を利用して表示更新
+            enemyGenerator.PreparateDisplayTotalExp(enemyData.exp);
+
             // エネミーの破壊処理を行う  
             Destroy(gameObject);
         }
