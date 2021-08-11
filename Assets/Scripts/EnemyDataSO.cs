@@ -18,5 +18,7 @@ public class EnemyDataSO : ScriptableObject
         public Sprite enemySprite;     // エネミーの画像
         public EnemyType enemyType;    // エネミーのタイプ
         public int exp;                // エネミーから得られる経験値
+        public float moveDuration;     // 拠点までの移動時間
+        public MoveType moveType;      // 移動方法の種類
     }
 }
