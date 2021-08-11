@@ -1,4 +1,4 @@
-﻿public enum MoveType 
+﻿public enum MoveType
 {
     Straight,           // 直進
     Meandering,         // 蛇行

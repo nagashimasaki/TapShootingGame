@@ -11,14 +11,13 @@ public class EnemyDataSO : ScriptableObject
     [Serializable]
     public class EnemyData
     {
-
-        public int no;                 // エネミーの通し番号
-        public int hp;                 // エネミーのHp
-        public int power;              // エネミーの攻撃力
-        public Sprite enemySprite;     // エネミーの画像
-        public EnemyType enemyType;    // エネミーのタイプ
-        public int exp;                // エネミーから得られる経験値
-        public float moveDuration;     // 拠点までの移動時間
-        public MoveType moveType;      // 移動方法の種類
+        public int no;
+        public int hp;
+        public int power;
+        public Sprite enemySprite;
+        public EnemyType enemyType;
+        public int exp;
+        public float moveDuration;       // 拠点までの移動時間
+        public MoveType moveType;        // 移動方法の種類
     }
 }

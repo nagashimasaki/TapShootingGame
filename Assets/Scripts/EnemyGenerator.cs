@@ -10,11 +10,9 @@ public class EnemyGenerator : MonoBehaviour
     [SerializeField, Header("エネミー生成までの準備時間")]
     public float preparateTime;
 
-    // 生成したエネミーの数をカウントするための変数
-    private int generateCount;
+    private int generateCount;     // 生成したエネミーの数をカウントするための変数
 
-    // 準備時間の計測用の変数
-    private float timer;
+    private float timer;           // 準備時間の計測用の変数
 
     private GameManager gameManager;
 
@@ -30,10 +28,12 @@ public class EnemyGenerator : MonoBehaviour
     [Header("エネミーのスクリプタブル・オブジェクト")]
     public EnemyDataSO enemyDataSO;
 
-    // Normal タイプのエネミーのデータだけ代入されている List Debug　用に public
+    // Normal タイプのエネミーのデータだけ代入されている List(Debug　用に public)
     public List<EnemyDataSO.EnemyData> normalEnemyDatas = new List<EnemyDataSO.EnemyData>();
 
+    // Boss タイプのエネミーのデータだけ代入されている List(Debug　用に public)
     public List<EnemyDataSO.EnemyData> bossEnemyDatas = new List<EnemyDataSO.EnemyData>();
+
 
     /// <summary>
     /// EnemyGenerator の設定
@@ -52,7 +52,6 @@ public class EnemyGenerator : MonoBehaviour
 
         // GameData よりエネミーの最大生成数を取得
         maxGenerateCount = GameData.instance.GetMaxGenerateCount();
-
     }
 
     /// <summary>
@@ -83,14 +82,13 @@ public class EnemyGenerator : MonoBehaviour
             if (generateCount >= maxGenerateCount)
             {
 
-                // 生成完了の状態にする 
+                // 生成完了の状態にする = Update メソッドでこの値を利用して、生成完了状態になったら生成の準備処理が実行されないように制御する
                 isGenerateEnd = true;
 
                 Debug.Log("生成完了");
 
                 // ボスの生成
                 StartCoroutine(GenerateBoss());
-
             }
         }
     }
@@ -126,10 +124,10 @@ public class EnemyGenerator : MonoBehaviour
         // エネミーのゲームオブジェクト(enemySetObj 変数の値)にアタッチされている EnemyController スクリプトの情報を取得して変数に代入
         EnemyController enemyController = enemySetObj.GetComponent<EnemyController>();
 
-        // EnemyController スクリプトの SetUpEnemy メソッドを実行する
-        enemyController.SetUpEnemy(enemyData);　　　　　　　
+        // EnemyController スクリプトの SetUpEnemy メソッドを実行する　=>　Start メソッドの代わりになる処理
+        enemyController.SetUpEnemy(enemyData);
 
-        // 追加設定を行う
+        // Boss 以外でも追加設定を行う
         enemyController.AdditionalSetUpEnemy(this);
     }
 
@@ -144,8 +142,7 @@ public class EnemyGenerator : MonoBehaviour
 
         // ゲーム終了の状態ではないなら
         if (!gameManager.isGameUp)
-        {     // ! が先頭についているので、gameManager.isGameUp == false と同じ条件式
-
+        {
 
             // エネミー生成の準備
             PreparateGenerateEnemy();
@@ -157,6 +154,8 @@ public class EnemyGenerator : MonoBehaviour
     /// </summary>
     private IEnumerator GenerateBoss()
     {
+
+        // TODO ボス出現の警告演出
 
         yield return new WaitForSeconds(1.0f);
 

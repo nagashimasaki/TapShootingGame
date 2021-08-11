@@ -1,33 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;      
+using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class EnemyController : MonoBehaviour
 {
-
+    // SetUpEnemy メソッドにて引数として受けとったエネミーのデータを代入する
     [Header("エネミーのデータ情報")]
-    public EnemyDataSO.EnemyData enemyData;           
+    public EnemyDataSO.EnemyData enemyData; 
 
+    // エネミーの画像の設定用　　　
     [SerializeField]
-    private Image imgEnemy;
+    private Image imgEnemy;                  
 
     [SerializeField]
     private Slider slider;
 
     // ヒット演出用のエフェクトのプレファブをインスペクターよりアサインして登録する
     [SerializeField]
-    private GameObject bulletEffectPrefab;     
+    private GameObject bulletEffectPrefab;
 
     // HPの最大値を代入する変数
     private int maxHp;
 
+    // エネミーのHP
+    private int hp;
+
     // EnemyGenerator を利用するための変数
     private EnemyGenerator enemyGenerator;
-
-    private int hp;
 
     /// <summary>
     /// エネミーの設定
@@ -41,10 +43,11 @@ public class EnemyController : MonoBehaviour
         // ボスではない場合
         if (this.enemyData.enemyType != EnemyType.Boss)
         {
+
             // エネミーの X 軸(左右)の位置を、ゲーム画面に収まる範囲でランダムな位置に変更
             transform.localPosition = new Vector3(transform.localPosition.x + Random.Range(-650, 650), transform.localPosition.y, 0);
         }
-        else        
+        else
         {
 
             // ボスの位置を徐々に下方向に変更
@@ -57,7 +60,7 @@ public class EnemyController : MonoBehaviour
             slider.transform.localPosition = new Vector3(0, 150, 0);
         }
 
-        // 画像を EnemyData の画像にする　=>　ここでエネミーごとの画像に変更する
+        // 画像を EnemyData の画像にする
         imgEnemy.sprite = this.enemyData.enemySprite;
 
         // EnemyData より Hp の値を最大値として代入
@@ -68,39 +71,37 @@ public class EnemyController : MonoBehaviour
 
         // Hpゲージの表示更新
         DisplayHpGauge();
+
+        // 移動タイプに応じた移動方法を選択して実行
+        SetMoveByMoveType();
     }
 
-    void Update()
+    void Update() 
     {
-
         // ボス以外なら
         if (enemyData.enemyType != EnemyType.Boss)
         {
-                // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
-                transform.Translate(0, -0.05f, 0);
+
+            // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
+            transform.Translate(0, -0.05f, 0);
         }
     }
 
-    /// <summary>
-    /// 侵入判定
-    /// </summary>
-    /// <param name="col"></param>
+    // 侵入判定
     private void OnTriggerEnter2D(Collider2D col)
     {
 
-        // 侵入したコライダーのゲームオブジェクトの Tag が Bullet なら
+        // バレットが接触したら
         if (col.gameObject.tag == "Bullet")
         {
 
-            // 侵入判定の確認
-            Debug.Log("侵入したオブジェクト名 : " + col.gameObject.name);
-
-            // バレットのゲームオブジェクトを破壊する
+            // バレットの破壊処理を呼び出す(メソッド名を修正すれば、一緒に修正される)
             DestroyBullet(col);
 
             // 侵入してきたコライダーのゲームオブジェクトに Bullet スクリプトがアタッチされていたら取得して bullet 変数に代入して、if 文の中の処理を行う
             if (col.gameObject.TryGetComponent(out Bullet bullet))
             {
+
                 // HPの更新処理とエネミーの破壊確認の処理を呼び出す
                 UpdateHp(bullet);
 
@@ -111,14 +112,10 @@ public class EnemyController : MonoBehaviour
     }
 
     /// <summary>
-    /// バレットとエネミーの破壊処理
+    /// バレットの破壊処理
     /// </summary>
     private void DestroyBullet(Collider2D col)
     {
-
-        // 侵入判定の確認
-        Debug.Log("侵入したオブジェクト名 : " + col.gameObject.tag);
-
         // バレットを破壊する
         Destroy(col.gameObject);
     }
@@ -128,8 +125,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void UpdateHp(Bullet bullet)
     {
-
-        // hp 変数から 15 減らす　(hpの減算処理)
+        // hpの減算処理
         hp -= bullet.bulletPower;
 
         // Hp の値の上限・下限を確認して範囲内に制限
@@ -138,7 +134,6 @@ public class EnemyController : MonoBehaviour
         // HPゲージの表示更新
         DisplayHpGauge();
 
-        // hp が 0 以下になったら
         if (hp <= 0)
         {
             hp = 0;
@@ -146,6 +141,7 @@ public class EnemyController : MonoBehaviour
             // ボスの場合
             if (enemyData.enemyType == EnemyType.Boss)
             {
+
                 // ボス討伐済みの状態にする
                 enemyGenerator.SwitchBossDestroyed(true);
             }
@@ -156,7 +152,7 @@ public class EnemyController : MonoBehaviour
             // 最新の TotapExp を利用して表示更新
             enemyGenerator.PreparateDisplayTotalExp(enemyData.exp);
 
-            // エネミーの破壊処理を行う  
+            // このゲームオブジェクトを破壊する
             Destroy(gameObject);
         }
         else
@@ -203,5 +199,51 @@ public class EnemyController : MonoBehaviour
         this.enemyGenerator = enemyGenerator;
 
         Debug.Log("追加設定完了");
+    }
+
+    /// <summary>
+    /// 移動タイプに応じた移動方法を選択して実行
+    /// </summary>
+    private void SetMoveByMoveType()
+    {
+
+        // moveType で分岐
+        switch (enemyData.moveType)
+        {
+
+            // Straight の場合
+            case MoveType.Straight:
+                MoveStraight();
+                break;
+
+            // Meandering の場合
+            case MoveType.Meandering:
+                MoveMeandering();
+                break;
+
+        }
+    }
+
+    /// <summary>
+    /// 直進移動
+    /// </summary>
+    private void MoveStraight()
+    {
+        Debug.Log("直進");
+
+        //transform.DOLocalMoveY(-3000, enemyData.moveDuration);
+    }
+
+    /// <summary>
+    /// 蛇行移動
+    /// </summary>
+    private void MoveMeandering()
+    {
+        Debug.Log("蛇行");
+
+        // 左右方向の移動をループ処理することで行ったり来たりさせる。左右の移動幅はランダム、移動間隔は等速
+        transform.DOLocalMoveX(transform.position.x + Random.Range(200.0f, 400.0f), 1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+
+        //transform.DOLocalMoveY(-3000, enemyData.moveDuration);
     }
 }
