@@ -27,6 +27,9 @@ public class DefenseBase : MonoBehaviour
         // 引数を利用して、GameManager スクリプトの情報を受け取って、用意しておいた変数に代入
         this.gameManager = gameManager;
 
+        // GameData より 耐久力を取得
+        durability = GameData.instance.GetDurability();
+
         // ゲーム開始時点の耐久力の値を最大値として代入
         maxDurability = durability;
 

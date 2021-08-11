@@ -628,7 +628,7 @@ MonoBehaviour:
   enemySetPrefab: {fileID: 568749642500503991, guid: 181d78abe8fb7554191bca66df73a417,
     type: 3}
   preparateTime: 1.5
-  maxGenerateCount: 3
+  maxGenerateCount: 0
   isGenerateEnd: 0
   isBossDestroyed: 0
   enemyDataSO: {fileID: 11400000, guid: e8ddcb01fd4b3f546a4191efca503be5, type: 2}
@@ -1921,7 +1921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c281110f53ac745b768d96c99795ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durability: 100
+  durability: 0
   enemyAttackEffectPrefab: {fileID: 2987083160230846503, guid: c894abe709e344f4c98e8eb160f78d21,
     type: 3}
 --- !u!50 &1353673723
@@ -2742,6 +2742,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalExp: 0
+  durabilityBase: 300
+  maxGenerateCountBase: 5
 --- !u!4 &2093090274
 Transform:
   m_ObjectHideFlags: 0

@@ -49,6 +49,10 @@ public class EnemyGenerator : MonoBehaviour
         normalEnemyDatas = GetEnemyTypeList(EnemyType.Normal);
 
         bossEnemyDatas = GetEnemyTypeList(EnemyType.Boss);
+
+        // GameData よりエネミーの最大生成数を取得
+        maxGenerateCount = GameData.instance.GetMaxGenerateCount();
+
     }
 
     /// <summary>
