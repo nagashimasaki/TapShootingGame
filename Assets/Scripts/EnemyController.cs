@@ -9,11 +9,11 @@ public class EnemyController : MonoBehaviour
 {
     // SetUpEnemy メソッドにて引数として受けとったエネミーのデータを代入する
     [Header("エネミーのデータ情報")]
-    public EnemyDataSO.EnemyData enemyData; 
+    public EnemyDataSO.EnemyData enemyData;
 
     // エネミーの画像の設定用　　　
     [SerializeField]
-    private Image imgEnemy;                  
+    private Image imgEnemy;
 
     [SerializeField]
     private Slider slider;
@@ -51,7 +51,7 @@ public class EnemyController : MonoBehaviour
         {
 
             // ボスの位置を徐々に下方向に変更
-            transform.DOLocalMoveY(transform.localPosition.y - 500, 3.0f);
+            //transform.DOLocalMoveY(transform.localPosition.y - 500, 3.0f);
 
             // ボスの場合、サイズを大きくする
             transform.localScale = Vector3.one * 2.0f;
@@ -76,7 +76,7 @@ public class EnemyController : MonoBehaviour
         SetMoveByMoveType();
     }
 
-    void Update() 
+    void Update()
     {
         // ボス以外なら
         if (enemyData.enemyType != EnemyType.Boss)
@@ -221,6 +221,11 @@ public class EnemyController : MonoBehaviour
                 MoveMeandering();
                 break;
 
+            // Boss_Horizontal の場合
+            case MoveType.Boss_Horizontal:
+                MoveBossHorizontal();
+                break;
+
         }
     }
 
@@ -245,5 +250,32 @@ public class EnemyController : MonoBehaviour
         transform.DOLocalMoveX(transform.position.x + Random.Range(200.0f, 400.0f), 1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
 
         //transform.DOLocalMoveY(-3000, enemyData.moveDuration);
+    }
+
+    /// <summary>
+    /// ボス・水平移動
+    /// </summary>
+    public void MoveBossHorizontal()
+    {
+
+        transform.localPosition = new Vector3(0, transform.localPosition.y, transform.localPosition.z);
+
+        transform.DOLocalMoveY(-600, 3.0f).OnComplete(() =>
+        {
+
+            Sequence sequence = DOTween.Sequence();
+
+            // 右端に移動
+            sequence.Append(transform.DOLocalMoveX(transform.localPosition.x + 550, 2.5f).SetEase(Ease.Linear));   
+
+            // 左端に移動
+            sequence.Append(transform.DOLocalMoveX(transform.localPosition.x - 550, 5.0f).SetEase(Ease.Linear)); 
+            
+            // 真ん中に移動
+            sequence.Append(transform.DOLocalMoveX(transform.localPosition.x, 2.5f).SetEase(Ease.Linear));
+
+            // 真ん中の地点に到達したら、一定時間待機する。その後上の処理を無制限にループする
+            sequence.AppendInterval(1.0f).SetLoops(-1, LoopType.Restart);　　　　　　　　　　　　　　　　　　　  　
+        });
     }
 }
