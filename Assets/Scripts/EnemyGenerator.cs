@@ -28,11 +28,15 @@ public class EnemyGenerator : MonoBehaviour
     [Header("エネミーのスクリプタブル・オブジェクト")]
     public EnemyDataSO enemyDataSO;
 
-    // Normal タイプのエネミーのデータだけ代入されている List(Debug　用に public)
-    public List<EnemyDataSO.EnemyData> normalEnemyDatas = new List<EnemyDataSO.EnemyData>();
+    // Normal タイプのエネミーのデータだけ代入されている List
+    private List<EnemyDataSO.EnemyData> normalEnemyDatas = new List<EnemyDataSO.EnemyData>();　　　
 
-    // Boss タイプのエネミーのデータだけ代入されている List(Debug　用に public)
-    public List<EnemyDataSO.EnemyData> bossEnemyDatas = new List<EnemyDataSO.EnemyData>();
+    // Boss タイプのエネミーのデータだけ代入されている List
+    private List<EnemyDataSO.EnemyData> bossEnemyDatas = new List<EnemyDataSO.EnemyData>();      　
+
+
+    [Header("エネミー移動用のスクリプタブル・オブジェクト")]
+    public MoveEventSO moveEventSO;
 
 
     /// <summary>

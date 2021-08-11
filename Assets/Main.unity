@@ -632,8 +632,7 @@ MonoBehaviour:
   isGenerateEnd: 0
   isBossDestroyed: 0
   enemyDataSO: {fileID: 11400000, guid: e8ddcb01fd4b3f546a4191efca503be5, type: 2}
-  normalEnemyDatas: []
-  bossEnemyDatas: []
+  moveEventSO: {fileID: 11400000, guid: dd1febc05e08c3941bec58b40521345d, type: 2}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

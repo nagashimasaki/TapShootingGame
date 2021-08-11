@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class EnemyController : MonoBehaviour
@@ -30,6 +31,8 @@ public class EnemyController : MonoBehaviour
 
     // EnemyGenerator を利用するための変数
     private EnemyGenerator enemyGenerator;
+
+    private UnityAction<Transform, float> moveEvent;    // UnityAction<Transform, float> 型の moveEvent 変数と読む
 
     /// <summary>
     /// エネミーの設定
@@ -71,9 +74,6 @@ public class EnemyController : MonoBehaviour
 
         // Hpゲージの表示更新
         DisplayHpGauge();
-
-        // 移動タイプに応じた移動方法を選択して実行
-        SetMoveByMoveType();
     }
 
     void Update()
@@ -198,84 +198,12 @@ public class EnemyController : MonoBehaviour
         // 引数で届いた情報を変数に代入してスクリプト内で利用できる状態にする
         this.enemyGenerator = enemyGenerator;
 
+        // MoveEventSO スクリプタブル・オブジェクトの GetMoveEvent メソッドを実行し、戻り値で移動用のメソッドを受け取る。ここで移動方法を決定
+        moveEvent = this.enemyGenerator.moveEventSO.GetMoveEvent(enemyData.moveType);
+
+        // Invoke メソッドを実行すると、moveEvent 変数に登録されたメソッド(今回は移動用のメソッド)を実行する。UnityActon <Transform, float>型なので、実行にあたって、指定された型の情報を指定する
+        moveEvent.Invoke(transform, enemyData.moveDuration);
+
         Debug.Log("追加設定完了");
-    }
-
-    /// <summary>
-    /// 移動タイプに応じた移動方法を選択して実行
-    /// </summary>
-    private void SetMoveByMoveType()
-    {
-
-        // moveType で分岐
-        switch (enemyData.moveType)
-        {
-
-            // Straight の場合
-            case MoveType.Straight:
-                MoveStraight();
-                break;
-
-            // Meandering の場合
-            case MoveType.Meandering:
-                MoveMeandering();
-                break;
-
-            // Boss_Horizontal の場合
-            case MoveType.Boss_Horizontal:
-                MoveBossHorizontal();
-                break;
-
-        }
-    }
-
-    /// <summary>
-    /// 直進移動
-    /// </summary>
-    private void MoveStraight()
-    {
-        Debug.Log("直進");
-
-        //transform.DOLocalMoveY(-3000, enemyData.moveDuration);
-    }
-
-    /// <summary>
-    /// 蛇行移動
-    /// </summary>
-    private void MoveMeandering()
-    {
-        Debug.Log("蛇行");
-
-        // 左右方向の移動をループ処理することで行ったり来たりさせる。左右の移動幅はランダム、移動間隔は等速
-        transform.DOLocalMoveX(transform.position.x + Random.Range(200.0f, 400.0f), 1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
-
-        //transform.DOLocalMoveY(-3000, enemyData.moveDuration);
-    }
-
-    /// <summary>
-    /// ボス・水平移動
-    /// </summary>
-    public void MoveBossHorizontal()
-    {
-
-        transform.localPosition = new Vector3(0, transform.localPosition.y, transform.localPosition.z);
-
-        transform.DOLocalMoveY(-600, 3.0f).OnComplete(() =>
-        {
-
-            Sequence sequence = DOTween.Sequence();
-
-            // 右端に移動
-            sequence.Append(transform.DOLocalMoveX(transform.localPosition.x + 550, 2.5f).SetEase(Ease.Linear));   
-
-            // 左端に移動
-            sequence.Append(transform.DOLocalMoveX(transform.localPosition.x - 550, 5.0f).SetEase(Ease.Linear)); 
-            
-            // 真ん中に移動
-            sequence.Append(transform.DOLocalMoveX(transform.localPosition.x, 2.5f).SetEase(Ease.Linear));
-
-            // 真ん中の地点に到達したら、一定時間待機する。その後上の処理を無制限にループする
-            sequence.AppendInterval(1.0f).SetLoops(-1, LoopType.Restart);　　　　　　　　　　　　　　　　　　　  　
-        });
     }
 }
