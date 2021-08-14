@@ -41,16 +41,36 @@ public class DefenseBase : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
 
+        // 侵入したコライダーのゲームオブジェクトのタグに Enemy が付いていたら
         if (col.gameObject.tag == "Enemy")
         {
 
-            // 侵入してきたコライダーのゲームオブジェクトに EnemyController スクリプトがアタッチされていたら取得して enemy 変数に代入
-            if (col.gameObject.TryGetComponent(out EnemyController enemy))
-            {
+            // ダメージの設定用
+            int damage = 0;
 
-                //耐久力の更新処理を呼び出す
-                UpdateDurability(enemy);
+            // 侵入してきたコライダーをオフにする(重複判定を防ぐため)
+            col.GetComponent<CapsuleCollider2D>().enabled = false;
+
+            // 侵入してきたコライダーのゲームオブジェクトに Bullet スクリプトがアタッチされていたら取得して bulet 変数に代入して、if 文の中の処理を行う
+            if (col.gameObject.TryGetComponent(out Bullet bullet))
+            {
+                // 攻撃力を元にダメージを決定
+                damage = bullet.bulletPower;
+
+                Debug.Log("バレットの攻撃力 : " + bullet.bulletPower);
             }
+
+            // 上の if 文が処理されず、侵入してきたコライダーのゲームオブジェクトに EnemyController スクリプトがアタッチされていたら取得して enemy 変数に代入して、if 文の中の処理を行う
+            else if (col.gameObject.TryGetComponent(out EnemyController enemy))
+            {
+                // 攻撃力を元にダメージを決定
+                damage = enemy.enemyData.power;
+
+                Debug.Log("エネミーの攻撃力 : " + enemy.enemyData.power);
+            }
+
+            // 耐久力の更新とゲームオーバーの確認
+            UpdateDurability(damage);
 
             // エネミーの攻撃演出用のエフェクト生成
             GenerateEnemyAttackEffect(col.gameObject.transform);
@@ -64,14 +84,14 @@ public class DefenseBase : MonoBehaviour
     /// <summary>
     /// 耐久力の更新
     /// </summary>
-    private void UpdateDurability(EnemyController enemy)
+    private void UpdateDurability(int damage)
     {
 
         // 耐久力の値を減算する
-        durability -= enemy.enemyData.power;
+        durability -= damage;
 
         // エネミーの攻撃力を反映しているか確認
-        Debug.Log("エネミーの攻撃力 : " + enemy.enemyData.power);
+        Debug.Log("エネミーからのダメージ : " + damage);
 
         // 耐久力の値を上限・下限値の範囲内に収まるか確認し、それを超えた場合には上限・下限値に置き換えて制限する
         durability = Mathf.Clamp(durability, 0, maxDurability);

@@ -221,4 +221,13 @@ public class EnemyGenerator : MonoBehaviour
         // TODO 引数の exp 変数は後々利用する
 
     }
+
+    /// <summary>
+    /// プレイヤーとエネミーとの位置から方向を判定する準備
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 PreparateGetPlayerDirection(Vector3 enemyPos)
+    {
+        return gameManager.GetPlayerDirection(enemyPos);
+    }
 }

@@ -76,4 +76,13 @@ public class GameManager : MonoBehaviour
         // ゲームオーバーの表示を行う
         uiManager.DisplayGameOverSet();
     }
+
+    /// <summary>
+    /// プレイヤーとエネミーとの位置から方向を判定
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetPlayerDirection(Vector3 enemyPos)
+    {
+        return (playerController.transform.position - enemyPos).normalized;
+    }
 }

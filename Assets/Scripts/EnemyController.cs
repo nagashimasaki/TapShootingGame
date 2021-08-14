@@ -88,7 +88,7 @@ public class EnemyController : MonoBehaviour
         {
 
             // このスクリプトがアタッチしているゲームオブジェクトを徐々に移動する
-            transform.Translate(0, -0.05f, 0);
+            transform.Translate(0, -0.03f, 0);
         }
     }
 
@@ -211,8 +211,8 @@ public class EnemyController : MonoBehaviour
 
         Debug.Log("追加設定完了");
 
-        // MoveType が Straight のエネミーの場合
-        if (enemyData.moveType == MoveType.Straight)
+        // MoveType が Straight のエネミー、あるいは Boss_Horizontal の場合
+        if (enemyData.moveType == MoveType.Straight || enemyData.moveType == MoveType.Boss_Horizontal)
         {
             // バレットの自動生成処理を実行する
             StartCoroutine(EnemyShot());
@@ -229,8 +229,19 @@ public class EnemyController : MonoBehaviour
         // 条件に true を指定すると無制限のループ処理になる
         while (true)
         {
-            // エネミーのバレットのクローンを生成し、Bullet スクリプトを取得して、ShotBullet メソッドを実行する
-            Instantiate(enemyBulletPrefab, transform).GetComponent<Bullet>().ShotBullet(-transform.up);
+            // エネミーのバレットのクローンを生成し、戻り値を bulletObj 変数に代入
+            GameObject bulletObj = Instantiate(enemyBulletPrefab, transform);
+
+            // クローンのゲームオブジェクトから Bullet スクリプトを取得して、ShotBullet メソッドを実行する
+            bulletObj.GetComponent<Bullet>().ShotBullet(enemyGenerator.PreparateGetPlayerDirection(transform.position));
+
+            // ボスの場合
+            if (enemyData.moveType == MoveType.Boss_Horizontal)
+            {
+
+                // バレットとエネミーの親子関係を解消し、バレットの親を TemporaryObjectContainer ゲームオブジェクトに変更する(発射してから親子関係を変更しないと、正常に発射できなくなります)
+                bulletObj.transform.SetParent(TransformHelper.GetTemporaryObjectContainerTran());
+            }
 
             // 5秒間処理を中断する(待機する)
             yield return new WaitForSeconds(5.0f);
