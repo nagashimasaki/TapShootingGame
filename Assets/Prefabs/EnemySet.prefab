@@ -183,10 +183,14 @@ MonoBehaviour:
     power: 0
     enemySprite: {fileID: 0}
     enemyType: 0
-  attackPower: 100
+    exp: 0
+    moveDuration: 0
+    moveType: 0
   imgEnemy: {fileID: 568749642554984308}
   slider: {fileID: 568749642612105663}
   bulletEffectPrefab: {fileID: 2987083160230846503, guid: c894abe709e344f4c98e8eb160f78d21,
+    type: 3}
+  enemyBulletPrefab: {fileID: 3338316090643333060, guid: 04a884da61ad9ed4baceacf13070092e,
     type: 3}
 --- !u!1 &568749642554984310
 GameObject:

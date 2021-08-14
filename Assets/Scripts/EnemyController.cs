@@ -23,6 +23,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private GameObject bulletEffectPrefab;
 
+    // EnemyBullet プレファブ・ゲームオブジェクトをインスペクターよりアサインして登録する
+    [SerializeField]
+    private GameObject enemyBulletPrefab;        
+
     // HPの最大値を代入する変数
     private int maxHp;
 
@@ -32,7 +36,8 @@ public class EnemyController : MonoBehaviour
     // EnemyGenerator を利用するための変数
     private EnemyGenerator enemyGenerator;
 
-    private UnityAction<Transform, float> moveEvent;    // UnityAction<Transform, float> 型の moveEvent 変数と読む
+    // UnityAction<Transform, float> 型の moveEvent 変数と読む
+    private UnityAction<Transform, float> moveEvent;    
 
     /// <summary>
     /// エネミーの設定
@@ -205,5 +210,30 @@ public class EnemyController : MonoBehaviour
         moveEvent.Invoke(transform, enemyData.moveDuration);
 
         Debug.Log("追加設定完了");
+
+        // MoveType が Straight のエネミーの場合
+        if (enemyData.moveType == MoveType.Straight)
+        {
+            // バレットの自動生成処理を実行する
+            StartCoroutine(EnemyShot());
+        }
+    }
+
+    /// <summary>
+    /// バレットの自動生成
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator EnemyShot()
+    {
+
+        // 条件に true を指定すると無制限のループ処理になる
+        while (true)
+        {
+            // エネミーのバレットのクローンを生成し、Bullet スクリプトを取得して、ShotBullet メソッドを実行する
+            Instantiate(enemyBulletPrefab, transform).GetComponent<Bullet>().ShotBullet(-transform.up);
+
+            // 5秒間処理を中断する(待機する)
+            yield return new WaitForSeconds(5.0f);
+        }
     }
 }
