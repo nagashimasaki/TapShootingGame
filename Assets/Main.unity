@@ -625,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e383adb92777f545951fa460aa25803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySetPrefab: {fileID: 568749642500503991, guid: 181d78abe8fb7554191bca66df73a417,
+  enemySetPrefab: {fileID: 568749642500503989, guid: 181d78abe8fb7554191bca66df73a417,
     type: 3}
   preparateTime: 1.5
   maxGenerateCount: 0
@@ -633,6 +633,7 @@ MonoBehaviour:
   isBossDestroyed: 0
   enemyDataSO: {fileID: 11400000, guid: e8ddcb01fd4b3f546a4191efca503be5, type: 2}
   moveEventSO: {fileID: 11400000, guid: dd1febc05e08c3941bec58b40521345d, type: 2}
+  enemiesList: []
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2741,7 +2742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalExp: 0
-  durabilityBase: 300
+  durabilityBase: 100
   maxGenerateCountBase: 5
 --- !u!4 &2093090274
 Transform:

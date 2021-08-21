@@ -55,6 +55,17 @@ public class GameManager : MonoBehaviour
 
         // isGameUp の値を引数の値に切り替える
         isGameUp = isSwitch;
+
+        // ゲーム終了の状態の場合
+        if (isGameUp)
+        {
+
+            // 画面に残っているエネミーをすべて破壊する
+            enemyGenerator.ClearEnemiesList();
+
+            // 一時オブジェクトを破壊する(子オブジェクトである、ボスのエネミーのバレットやエフェクトなども一緒に破壊される)
+            enemyGenerator.DestroyTemporaryObjectContainer();
+        }
     }
 
     /// <summary>

@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     [SerializeField, Header("エネミーのプレファブ")]
-    private GameObject enemySetPrefab;
+    private EnemyController enemySetPrefab;
 
     [SerializeField, Header("エネミー生成までの準備時間")]
     public float preparateTime;
@@ -38,6 +38,8 @@ public class EnemyGenerator : MonoBehaviour
     [Header("エネミー移動用のスクリプタブル・オブジェクト")]
     public MoveEventSO moveEventSO;
 
+    [SerializeField, Header("生成したエネミーのリスト")]
+    private List<EnemyController> enemiesList = new List<EnemyController>();
 
     /// <summary>
     /// EnemyGenerator の設定
@@ -122,17 +124,17 @@ public class EnemyGenerator : MonoBehaviour
                 break;
         }
 
-        // プレファブからエネミーのクローンを生成する。生成位置は EnemyGenerator の位置
-        GameObject enemySetObj = Instantiate(enemySetPrefab, transform, false);    //  <=  左辺に GameObject 型の変数を用意して、インスタンスされたエネミーの情報を戻り値で受け取る
-
-        // エネミーのゲームオブジェクト(enemySetObj 変数の値)にアタッチされている EnemyController スクリプトの情報を取得して変数に代入
-        EnemyController enemyController = enemySetObj.GetComponent<EnemyController>();
+        // プレファブからエネミーのクローンを生成する。生成位置は EnemyGenerator の位置。戻り値の値は EnemyController 型になる
+        EnemyController enemyController = Instantiate(enemySetPrefab, transform, false);
 
         // EnemyController スクリプトの SetUpEnemy メソッドを実行する　=>　Start メソッドの代わりになる処理
         enemyController.SetUpEnemy(enemyData);
 
         // Boss 以外でも追加設定を行う
         enemyController.AdditionalSetUpEnemy(this);
+
+        // List に生成したエネミーの情報を追加
+        enemiesList.Add(enemyController);
     }
 
     void Update()
@@ -230,4 +232,41 @@ public class EnemyGenerator : MonoBehaviour
     {
         return gameManager.GetPlayerDirection(enemyPos);
     }
+
+    /// <summary>
+    /// enemiesList に登録されているエネミーのうち、リストに残っているエネミーのゲームオブジェクトを破壊し、enemiesList をクリアする
+    /// </summary>
+    public void ClearEnemiesList()
+    {
+
+        // enemiesList の要素(中身)を１つずつ順番に、要素の最大値になるまで判定していく
+        for (int i = 0; i < enemiesList.Count; i++)
+        {
+
+            // 要素が空ではない(プレイヤーに破壊されずにゲーム画面に残っている)なら
+            if (enemiesList[i] != null)
+            {
+
+                // そのエネミーのゲームオブジェクトを破壊する
+                Destroy(enemiesList[i].gameObject);
+            }
+        }
+
+        // リストをクリア(要素が何もない状態)にする
+        enemiesList.Clear();
+    }
+
+    /// <summary>
+    /// 一時オブジェクト(バレット、エフェクトなど)をすべて破棄(利用状況に応じて、①か②のいずれかの処理を実装する)
+    /// </summary>
+    public void DestroyTemporaryObjectContainer()
+    {
+
+        // ① TemporaryObjectContainer ゲームオブジェクトを破壊する(プロパティを利用している場合)
+        Destroy(TransformHelper.GetTemporaryObjectContainerTran().gameObject);
+
+        // ② TemporaryObjectContainer ゲームオブジェクトを破壊する(プロパティを利用していない場合)
+        Destroy(TransformHelper.GetTemporaryObjectContainerTran().gameObject);
+    }
+
 }
