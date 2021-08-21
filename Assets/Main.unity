@@ -1924,6 +1924,9 @@ MonoBehaviour:
   durability: 0
   enemyAttackEffectPrefab: {fileID: 2987083160230846503, guid: c894abe709e344f4c98e8eb160f78d21,
     type: 3}
+  floatingMessagePrefab: {fileID: 4539814326711523934, guid: b37413cbf9e642f4992b9361badf636d,
+    type: 3}
+  floatingDamageTran: {fileID: 1290829807}
 --- !u!50 &1353673723
 Rigidbody2D:
   serializedVersion: 4
@@ -2054,6 +2057,8 @@ MonoBehaviour:
   txtDurability: {fileID: 1290829808}
   slider: {fileID: 2037697670}
   txtTotalExp: {fileID: 544682038}
+  floatingMessagePrefab: {fileID: 4539814326711523934, guid: b37413cbf9e642f4992b9361badf636d,
+    type: 3}
 --- !u!4 &1602134872
 Transform:
   m_ObjectHideFlags: 0

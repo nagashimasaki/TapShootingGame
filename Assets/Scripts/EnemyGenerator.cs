@@ -220,8 +220,8 @@ public class EnemyGenerator : MonoBehaviour
         // GameManager スクリプトから UIManager スクリプトの UpdateDisplayTotalExp メソッドを実行する
         gameManager.uiManager.UpdateDisplayTotalExp(GameData.instance.GetTotalExp());
 
-        // TODO 引数の exp 変数は後々利用する
-
+        // GameManager スクリプトから UIManager スクリプトの CreateFlotingMessageToExp メソッドを実行する。引数として exp とフロート表示の種類を渡す
+        gameManager.uiManager.CreateFlotingMessageToExp(exp, FloatingMessage.FloatingMessageType.GetExp);
     }
 
     /// <summary>

@@ -193,6 +193,9 @@ MonoBehaviour:
     type: 3}
   enemyBulletPrefab: {fileID: 3338316090643333060, guid: 04a884da61ad9ed4baceacf13070092e,
     type: 3}
+  floatingDamageTran: {fileID: 5227824942091030282}
+  floatingMessagePrefab: {fileID: 4539814326711523934, guid: b37413cbf9e642f4992b9361badf636d,
+    type: 3}
 --- !u!1 &568749642554984310
 GameObject:
   m_ObjectHideFlags: 0

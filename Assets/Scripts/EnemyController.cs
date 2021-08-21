@@ -25,7 +25,14 @@ public class EnemyController : MonoBehaviour
 
     // EnemyBullet プレファブ・ゲームオブジェクトをインスペクターよりアサインして登録する
     [SerializeField]
-    private GameObject enemyBulletPrefab;        
+    private GameObject enemyBulletPrefab;
+
+    [SerializeField, Header("フロート表示を行う位置情報")]
+    private Transform floatingDamageTran;
+
+    // FloatingMessageObj プレファブ・ゲームオブジェクトをインスペクターよりアサインして登録する
+    [SerializeField]
+    private FloatingMessage floatingMessagePrefab;    
 
     // HPの最大値を代入する変数
     private int maxHp;
@@ -130,6 +137,9 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void UpdateHp(Bullet bullet)
     {
+        // バレットの攻撃力値用のフロート表示の生成
+        CreateFloatingMessageToBulletPower(bullet.bulletPower);
+
         // hpの減算処理
         hp -= bullet.bulletPower;
 
@@ -246,5 +256,19 @@ public class EnemyController : MonoBehaviour
             // 5秒間処理を中断する(待機する)
             yield return new WaitForSeconds(5.0f);
         }
+    }
+
+    /// <summary>
+    /// バレットの攻撃力値分のフロート表示の生成
+    /// </summary>
+    /// <param name="bulletPower"></param>
+    private void CreateFloatingMessageToBulletPower(int bulletPower)
+    {
+
+        // フロート表示の生成。生成位置は EnemySet ゲームオブジェクト内の FloatingMessageTran ゲームオブジェクトの位置(子オブジェクト)
+        FloatingMessage floatingMessage = Instantiate(floatingMessagePrefab, floatingDamageTran, false);
+
+        // 生成したフロート表示の設定用メソッドを実行。引数として、バレットの攻撃力値とフロート表示の種類を指定して渡す
+        floatingMessage.DisplayFloatingMessage(bulletPower, FloatingMessage.FloatingMessageType.EnemyDamage);
     }
 }

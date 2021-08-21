@@ -24,6 +24,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text txtTotalExp;
 
+    // FloatingMessageObj プレファブ・ゲームオブジェクトをインスペクターよりアサインして登録する 
+    [SerializeField]
+    private FloatingMessage floatingMessagePrefab;  
+
     /// <summary>
     /// ゲームクリア表示を隠す
     /// </summary>
@@ -88,5 +92,19 @@ public class UIManager : MonoBehaviour
     public void UpdateDisplayTotalExp(int totalExp)
     {
         txtTotalExp.text = totalExp.ToString();
+    }
+
+    /// <summary>
+    /// EXP 値用のフロート表示の生成
+    /// </summary>
+    /// <param name="exp"></param>
+    public void CreateFlotingMessageToExp(int exp, FloatingMessage.FloatingMessageType floatingMessageType)
+    {
+
+        // フロート表示の生成。生成位置は TotalExpSet ゲームオブジェクト内の txtTotalExp ゲームオブジェクトの位置(子オブジェクト)
+        FloatingMessage floatingMessage = Instantiate(floatingMessagePrefab, txtTotalExp.transform, false);
+
+        // 生成したフロート表示の設定用メソッドを実行。引数として、Exp 値とフロート表示の種類を指定して渡す
+        floatingMessage.DisplayFloatingMessage(exp, floatingMessageType);
     }
 }

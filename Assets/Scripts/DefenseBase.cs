@@ -12,6 +12,13 @@ public class DefenseBase : MonoBehaviour
     [SerializeField]
     private GameObject enemyAttackEffectPrefab;
 
+    // FloatingMessageObj プレファブ・ゲームオブジェクトをインスペクターよりアサインして登録する
+    [SerializeField]
+    private FloatingMessage floatingMessagePrefab;    
+
+    [SerializeField, Header("フロート表示を行う位置情報")]
+    private Transform floatingDamageTran;
+
     // 耐久力の最大値を代入しておく
     private int maxDurability;
 
@@ -72,9 +79,11 @@ public class DefenseBase : MonoBehaviour
             // 耐久力の更新とゲームオーバーの確認
             UpdateDurability(damage);
 
+            // エネミーからのダメージ値用のフロート表示の生成
+            CreateFloatingMessageToDamage(damage);
+
             // エネミーの攻撃演出用のエフェクト生成
             GenerateEnemyAttackEffect(col.gameObject.transform);
-
 
             // エネミーのゲームオブジェクトを破壊する
             Destroy(col.gameObject);
@@ -130,5 +139,19 @@ public class DefenseBase : MonoBehaviour
 
         // 3秒後にエフェクトを破壊する
         Destroy(enemyAttackEffect, 3.0f);
+    }
+
+    /// <summary>
+    /// エネミーからのダメージ値用のフロート表示の生成
+    /// </summary>
+    /// <param name="damage"></param>
+    private void CreateFloatingMessageToDamage(int damage)
+    {
+
+        // フロート表示の生成。生成位置は DefenseBase ゲームオブジェクト内の txtDurability ゲームオブジェクトの位置(子オブジェクト)
+        FloatingMessage floatingMessage = Instantiate(floatingMessagePrefab, floatingDamageTran, false);
+
+        // 生成したフロート表示の設定用メソッドを実行。引数として、エネミーからのダメージ値とフロート表示の種類を指定して渡す
+        floatingMessage.DisplayFloatingMessage(damage, FloatingMessage.FloatingMessageType.PlayerDamage);
     }
 }
