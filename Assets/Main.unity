@@ -1050,6 +1050,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &647271480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 647271482}
+  - component: {fileID: 647271481}
+  m_Layer: 0
+  m_Name: 'BulletSelectManager '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &647271481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647271480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3170dd160dd45b4b86838e1f35ba420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSelectDetailPrefab: {fileID: 858580905}
+  bulletTran: {fileID: 601946175}
+  bulletSelectDetailList: []
+--- !u!4 &647271482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647271480}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.0065486, y: -0.03016477, z: 87.521484}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &833693269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,6 +1169,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &858580905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3449004054753555796, guid: ff2af6530ea30454abb7a0f008405d6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1532886783946476007}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba15878f1e0d444594a130a387b68a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &897679884
 GameObject:
   m_ObjectHideFlags: 0
@@ -2098,6 +2156,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: btnBulletSelect (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1330981262002951164, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2226025740867206630, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104185052129301794, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848170601484364912, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6270845481239282010, guid: ff2af6530ea30454abb7a0f008405d6e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2626,6 +2704,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: btnBulletSelect (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1330981262002951164, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2226025740867206630, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104185052129301794, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848170601484364912, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6270845481239282010, guid: ff2af6530ea30454abb7a0f008405d6e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2857,6 +2955,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: btnBulletSelect (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1330981262002951164, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2226025740867206630, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104185052129301794, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848170601484364912, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6270845481239282010, guid: ff2af6530ea30454abb7a0f008405d6e,
         type: 3}
@@ -4380,6 +4498,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: 'btnBulletSelect '
+      objectReference: {fileID: 0}
+    - target: {fileID: 1330981262002951164, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2226025740867206630, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104185052129301794, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848170601484364912, guid: ff2af6530ea30454abb7a0f008405d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6270845481239282010, guid: ff2af6530ea30454abb7a0f008405d6e,
         type: 3}
